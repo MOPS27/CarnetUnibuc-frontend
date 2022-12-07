@@ -3,6 +3,8 @@
  */
 import DataPageTemplate from "../templates/DataPageTemplate";
 import { IDataTableHeader } from "../../components/DataTable";
+import { AddIcon } from "@chakra-ui/icons";
+import { Button, ButtonGroup } from "@chakra-ui/react";
 
 const module = () => {
   const title = "Programe de studiu";
@@ -23,10 +25,22 @@ const module = () => {
     ["Informatică", "Frecvență", 3],
     ["Calculatoare și Tehnologia Informației", "Frecvență", 4],
   ];
+  const controls = (
+    <>
+      <ButtonGroup paddingLeft="3" colorScheme={"teal"} alignSelf={"start"}>
+        <Button leftIcon={<AddIcon />}>Adaugă program de studiu</Button>
+      </ButtonGroup>
+    </>
+  );
 
   return (
     <>
-      <DataPageTemplate title={title} headers={headers} rows={rows} />
+      <DataPageTemplate
+        title={title}
+        headers={headers}
+        rows={rows}
+        controls={controls}
+      />
     </>
   );
 };

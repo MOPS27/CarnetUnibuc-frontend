@@ -35,7 +35,7 @@ const component = (props: IDataTable) => {
 
   return (
     <>
-      <TableContainer minWidth="50vw">
+      <TableContainer width="100%">
         <Table variant="simple">
           <Thead>
             <Tr>{tableHeaders}</Tr>

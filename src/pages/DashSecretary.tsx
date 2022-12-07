@@ -8,11 +8,10 @@ import {
   Link,
 } from "@chakra-ui/react";
 import { GradientButton } from "../components/GradientButton";
-import Navbar from "../components/Navbar";
 import { IoMdSchool } from "react-icons/io";
 import { ImBook } from "react-icons/im";
 import { FaClipboardList, FaPenFancy } from "react-icons/fa";
-import { Route, Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink } from "react-router-dom";
 
 export const DashSecretary = () => {
   return (

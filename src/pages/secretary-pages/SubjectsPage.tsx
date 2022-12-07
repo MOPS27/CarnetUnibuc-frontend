@@ -3,6 +3,8 @@
  */
 import DataPageTemplate from "../templates/DataPageTemplate";
 import { IDataTableHeader } from "../../components/DataTable";
+import { ButtonGroup } from "@chakra-ui/react";
+import AddSubjectModal from "../../components/AddSubjectModal";
 
 const module = () => {
   const title = "Materii";
@@ -21,9 +23,22 @@ const module = () => {
     ["Analiză matematică", 5],
   ];
 
+  const controls = (
+    <>
+      <ButtonGroup paddingLeft="3" colorScheme={"teal"} alignSelf={"start"}>
+        <AddSubjectModal />
+      </ButtonGroup>
+    </>
+  );
+
   return (
     <>
-      <DataPageTemplate title={title} headers={headers} rows={rows} />
+      <DataPageTemplate
+        title={title}
+        headers={headers}
+        rows={rows}
+        controls={controls}
+      />
     </>
   );
 };
