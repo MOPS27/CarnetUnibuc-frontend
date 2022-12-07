@@ -3,7 +3,7 @@ import { ChakraProvider } from "@chakra-ui/react";
 
 import theme from "./theme";
 import { DashSecretary } from "./pages/DashSecretary";
-import StudyPrograms from "./pages/StudyPrograms";
+import StudyPrograms from "./pages/secretary-pages/StudyProgramsPage";
 import {
   Routes,
   Route,
@@ -11,7 +11,11 @@ import {
   RouterProvider,
   createBrowserRouter,
 } from "react-router-dom";
-import RootPage from "./pages/RootPage";
+import RootPage from "./pages/templates/RootPage";
+import CoursesPage from "./pages/secretary-pages/CoursesPage";
+import StudyProgramsPage from "./pages/secretary-pages/StudyProgramsPage";
+import SubjectsPage from "./pages/secretary-pages/SubjectsPage";
+import StudentsPage from "./pages/secretary-pages/StudentsPage";
 
 const router = createBrowserRouter([
   {
@@ -19,24 +23,28 @@ const router = createBrowserRouter([
     element: <RootPage />,
     children: [
       {
+        index: true,
+        element: <DashSecretary />,
+      },
+      {
         path: "/secretary",
         element: <DashSecretary />,
       },
       {
         path: "/study-programs",
-        element: <StudyPrograms />,
+        element: <StudyProgramsPage />,
       },
       {
         path: "/courses",
-        element: <StudyPrograms />,
+        element: <CoursesPage />,
       },
       {
         path: "/subjects",
-        element: <StudyPrograms />,
+        element: <SubjectsPage />,
       },
       {
         path: "/students",
-        element: <StudyPrograms />,
+        element: <StudentsPage />,
       },
     ],
   },
