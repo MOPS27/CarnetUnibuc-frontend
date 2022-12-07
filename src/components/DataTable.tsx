@@ -1,4 +1,6 @@
+import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
 import {
+  IconButton,
   Table,
   TableContainer,
   Tbody,
@@ -28,7 +30,13 @@ const component = (props: IDataTable) => {
     const cells = rowData.map((cellValue: any) => <Td>{cellValue}</Td>);
     return (
       <>
-        <Tr>{cells}</Tr>
+        <Tr>
+          {cells}
+          <td>
+            <IconButton mr="2" aria-label="edit" icon={<EditIcon />} />
+            <IconButton aria-label="sterge" icon={<DeleteIcon />} />
+          </td>
+        </Tr>
       </>
     );
   });
@@ -38,7 +46,10 @@ const component = (props: IDataTable) => {
       <TableContainer width="100%">
         <Table variant="simple">
           <Thead>
-            <Tr>{tableHeaders}</Tr>
+            <Tr>
+              {tableHeaders}
+              <Td>Acțiuni</Td>
+            </Tr>
           </Thead>
           <Tbody>{tableRows}</Tbody>
         </Table>
