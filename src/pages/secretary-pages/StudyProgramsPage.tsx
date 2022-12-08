@@ -5,6 +5,7 @@ import DataPageTemplate from "../templates/DataPageTemplate";
 import { IDataTableHeader } from "../../components/DataTable";
 import { AddIcon } from "@chakra-ui/icons";
 import { Button, ButtonGroup } from "@chakra-ui/react";
+import AddStudyProgramModal from "../../components/AddStudyProgramModal";
 
 const module = () => {
   const title = "Programe de studiu";
@@ -28,7 +29,8 @@ const module = () => {
   const controls = (
     <>
       <ButtonGroup paddingLeft="3" colorScheme={"teal"} alignSelf={"start"}>
-        <Button leftIcon={<AddIcon />}>Adaugă program de studiu</Button>
+        {/* <Button leftIcon={<AddIcon />}>Adaugă program de studiu</Button> */}
+        <AddStudyProgramModal />
       </ButtonGroup>
     </>
   );
