@@ -15,23 +15,47 @@ import {
 } from "@chakra-ui/react";
 import { useFormik } from "formik";
 import { Form } from "react-router-dom";
+import { studentsEndpoint } from "../api/GenericApi";
+import { genericAddModalSave, IModal } from "./GenericModal";
 
-export interface IAddModal {
-  title: string;
+export interface IGroupAPI {
+  groupCode: number;
 }
 
-const Component = () => {
+export interface IStudentDetailsAPI {
+  firstName: string;
+  lastName: string;
+  email: string;
+  group: IGroupAPI;
+}
+
+const Component = (props: IModal) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
+  const initialValues = {
+    firstName: "",
+    lastName: "",
+    email: "",
+    group: 0,
+  };
+
   const formik = useFormik({
-    initialValues: {
-      firstName: "",
-      lastName: "",
-      email: "",
-      group: "",
-    },
+    initialValues: initialValues,
     onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2));
+      const parsedValues: IStudentDetailsAPI = {
+        firstName: values.firstName,
+        lastName: values.lastName,
+        group: {
+          groupCode: values.group,
+        },
+        email: values.email,
+      };
+      genericAddModalSave(
+        [parsedValues],
+        studentsEndpoint,
+        props.onSave,
+        onClose
+      );
     },
   });
 
@@ -76,6 +100,7 @@ const Component = () => {
 
               <Input
                 id="group"
+                type="number"
                 name="group"
                 onChange={formik.handleChange}
                 value={formik.values.group}
