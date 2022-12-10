@@ -33,7 +33,6 @@ const module = () => {
   const controls = (
     <>
       <ButtonGroup paddingLeft="3" colorScheme={"teal"} alignSelf={"start"}>
-        {/* <Button leftIcon={<AddIcon />}>Adaugă student</Button> */}
         <AddStudentModal />
         <Button leftIcon={<DownloadIcon />}>Importă listă studenți</Button>
       </ButtonGroup>

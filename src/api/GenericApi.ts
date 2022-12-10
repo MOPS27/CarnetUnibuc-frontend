@@ -4,7 +4,7 @@ import { IStudyProgramsAPI } from "./StudyProgramsApi";
 import { ISubjectAPI } from "./SubjectsApi";
 
 export const studyProgramsEndpoint = "programmes"
-export const subjectEndpoint = "courses"
+export const subjectEndpoint = "subjects"
 export const coursesEndpoint = "courses"
 export const profileEndpoint = "profile"
 
