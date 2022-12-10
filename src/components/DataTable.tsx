@@ -20,24 +20,43 @@ export type IDataTableRow = any[];
 export interface IDataTable {
   headers: IDataTableHeader[];
   rows: IDataTableRow[];
+  canEditRow: boolean;
+  canDeleteRow: boolean;
 }
-const component = (props: IDataTable) => {
-  const tableHeaders = props.headers.map((headerData) => (
-    <Th isNumeric={headerData.isNumeric ?? false}>{headerData.name}</Th>
+const DataTable = (props: IDataTable) => {
+  const tableHeaders = props.headers.map((headerData, index) => (
+    <Th key={headerData.name} isNumeric={headerData.isNumeric ?? false}>
+      {headerData.name}
+    </Th>
   ));
 
+  const actionTableHeader =
+    props.canEditRow || props.canDeleteRow ? <Th>Acțiuni</Th> : <></>;
+
   const tableRows = props.rows.map((rowData) => {
-    const cells = rowData.map((cellValue: any) => <Td>{cellValue}</Td>);
+    const rowKey = rowData[0];
+    const cells = rowData
+      .slice(1)
+      .map((cellValue: any) => <Td key={cellValue + rowKey}>{cellValue}</Td>);
+    console.log(rowKey);
+    const editRowButton = props.canEditRow ? (
+      <IconButton mr="2" aria-label="edit" icon={<EditIcon />} />
+    ) : (
+      <></>
+    );
+    const deleteRowButton = props.canDeleteRow ? (
+      <IconButton mr="2" aria-label="delete" icon={<DeleteIcon />} />
+    ) : (
+      <></>
+    );
     return (
-      <>
-        <Tr>
-          {cells}
-          <td>
-            <IconButton mr="2" aria-label="edit" icon={<EditIcon />} />
-            <IconButton aria-label="sterge" icon={<DeleteIcon />} />
-          </td>
-        </Tr>
-      </>
+      <Tr key={rowKey}>
+        {cells}
+        <td>
+          {editRowButton}
+          {deleteRowButton}
+        </td>
+      </Tr>
     );
   });
 
@@ -48,7 +67,7 @@ const component = (props: IDataTable) => {
           <Thead>
             <Tr>
               {tableHeaders}
-              <Td>Acțiuni</Td>
+              {actionTableHeader}
             </Tr>
           </Thead>
           <Tbody>{tableRows}</Tbody>
@@ -58,4 +77,4 @@ const component = (props: IDataTable) => {
   );
 };
 
-export default component;
+export default DataTable;

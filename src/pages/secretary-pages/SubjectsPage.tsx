@@ -5,8 +5,11 @@ import DataPageTemplate from "../templates/DataPageTemplate";
 import { IDataTableHeader } from "../../components/DataTable";
 import { ButtonGroup } from "@chakra-ui/react";
 import AddSubjectModal from "../../components/AddSubjectModal";
+import { genericApiGet, subjectEndpoint } from "../../api/GenericApi";
+import { useEffect, useState } from "react";
 
-const module = () => {
+const Component = () => {
+  ///// Config /////
   const title = "Materii";
   const headers: IDataTableHeader[] = [
     {
@@ -16,17 +19,31 @@ const module = () => {
       name: "Număr credite",
     },
   ];
+  const apiEndpoint = subjectEndpoint;
 
-  const rows = [
-    ["Algoritmi & Structuri de date", 6],
-    ["Tehnici Web", 3],
-    ["Analiză matematică", 5],
-  ];
+  const [rows, setRows] = useState([]);
+  const [dataRows, setDataRows] = useState();
+
+  const refreshRows = () => {
+    genericApiGet(apiEndpoint).then((dataRows) => setDataRows(dataRows));
+  };
+
+  const onSave = refreshRows;
+  ///// End Config /////
+
+  useEffect(() => {
+    refreshRows();
+  }, []);
+
+  useEffect(() => {
+    if (!dataRows) return;
+    setRows(dataRows);
+  }, [dataRows]);
 
   const controls = (
     <>
       <ButtonGroup paddingLeft="3" colorScheme={"teal"} alignSelf={"start"}>
-        <AddSubjectModal />
+        <AddSubjectModal onSave={onSave} />
       </ButtonGroup>
     </>
   );
@@ -42,4 +59,4 @@ const module = () => {
     </>
   );
 };
-export default module;
+export default Component;

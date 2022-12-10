@@ -7,7 +7,10 @@ interface IDataPageTemplate {
   controls?: ReactNode;
   headers: IDataTableHeader[];
   rows: any;
+  canEditRow?: boolean;
+  canDeleteRow?: boolean;
 }
+
 const component = (props: IDataPageTemplate) => {
   return (
     <>
@@ -16,7 +19,12 @@ const component = (props: IDataPageTemplate) => {
           {props.title}
         </Heading>
         {props.controls}
-        <DataTable headers={props.headers} rows={props.rows} />
+        <DataTable
+          headers={props.headers}
+          rows={props.rows}
+          canEditRow={props.canEditRow ?? true}
+          canDeleteRow={props.canDeleteRow ?? true}
+        />
       </VStack>
     </>
   );

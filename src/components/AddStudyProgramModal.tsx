@@ -15,21 +15,22 @@ import {
 } from "@chakra-ui/react";
 import { useFormik } from "formik";
 import { Form } from "react-router-dom";
+import { genericApiPost, studyProgramsEndpoint } from "../api/GenericApi";
+import { IStudyProgramsAPI, studyProgramsPOST } from "../api/StudyProgramsApi";
+import { genericAddModalSave, IModal } from "./GenericModal";
 
-export interface IAddModal {
-  title: string;
-}
-
-const Component = () => {
+const Component = (props: IModal) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
+  const initialValues: IStudyProgramsAPI = {
+    name: "",
+    numberOfYears: 0,
+  };
+
   const formik = useFormik({
-    initialValues: {
-      studyProgramName: "",
-      years: 3,
-    },
+    initialValues: initialValues,
     onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2));
+      genericAddModalSave(values, studyProgramsEndpoint, props.onSave, onClose);
     },
   });
 
@@ -46,24 +47,22 @@ const Component = () => {
             <ModalHeader>Adaugă program de studiu</ModalHeader>
             <ModalCloseButton />
             <ModalBody>
-              <FormLabel htmlFor="studyProgramName">
-                Nume program de studiu
-              </FormLabel>
+              <FormLabel htmlFor="name">Nume program de studiu</FormLabel>
 
               <Input
-                id="studyProgramName"
-                name="studyProgramName"
+                id="name"
+                name="name"
                 onChange={formik.handleChange}
-                value={formik.values.studyProgramName}
+                value={formik.values.name}
               />
 
-              <FormLabel htmlFor="years">Număr ani</FormLabel>
+              <FormLabel htmlFor="numberOfYears">Număr ani</FormLabel>
               <Input
-                id="years"
-                name="years"
+                id="numberOfYears"
+                name="numberOfYears"
                 type="number"
                 onChange={formik.handleChange}
-                value={formik.values.years}
+                value={formik.values.numberOfYears}
               />
             </ModalBody>
 

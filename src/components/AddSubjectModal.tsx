@@ -15,21 +15,22 @@ import {
 } from "@chakra-ui/react";
 import { useFormik } from "formik";
 import { Form } from "react-router-dom";
+import { subjectEndpoint } from "../api/GenericApi";
+import { ISubjectAPI } from "../api/SubjectsApi";
+import { genericAddModalSave, IModal } from "./GenericModal";
 
-export interface IAddModal {
-  title: string;
-}
-
-const Component = () => {
+const Component = (props: IModal) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
+  const initialValues: ISubjectAPI = {
+    name: "",
+    creditCount: 1,
+  };
+
   const formik = useFormik({
-    initialValues: {
-      subjectName: "",
-      creditCount: "",
-    },
+    initialValues: initialValues,
     onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2));
+      genericAddModalSave(values, subjectEndpoint, props.onSave, onClose);
     },
   });
 
@@ -46,13 +47,13 @@ const Component = () => {
             <ModalHeader>Adaugă materie</ModalHeader>
             <ModalCloseButton />
             <ModalBody>
-              <FormLabel htmlFor="subjectName">Nume materie</FormLabel>
+              <FormLabel htmlFor="name">Nume materie</FormLabel>
 
               <Input
-                id="subjectName"
-                name="subjectName"
+                id="name"
+                name="name"
                 onChange={formik.handleChange}
-                value={formik.values.subjectName}
+                value={formik.values.name}
               />
 
               <FormLabel htmlFor="creditCount">Credite</FormLabel>

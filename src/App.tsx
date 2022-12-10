@@ -16,6 +16,7 @@ import CoursesPage from "./pages/secretary-pages/CoursesPage";
 import StudyProgramsPage from "./pages/secretary-pages/StudyProgramsPage";
 import SubjectsPage from "./pages/secretary-pages/SubjectsPage";
 import StudentsPage from "./pages/secretary-pages/StudentsPage";
+import StudentPage from "./pages/StudentPage";
 
 const router = createBrowserRouter([
   {
@@ -45,6 +46,10 @@ const router = createBrowserRouter([
       {
         path: "/students",
         element: <StudentsPage />,
+      },
+      {
+        path: "/student",
+        element: <StudentPage />,
       },
     ],
   },

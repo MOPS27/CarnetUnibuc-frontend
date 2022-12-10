@@ -3,47 +3,58 @@
  */
 import DataPageTemplate from "../templates/DataPageTemplate";
 import { IDataTableHeader } from "../../components/DataTable";
-import { AddIcon } from "@chakra-ui/icons";
-import { Button, ButtonGroup } from "@chakra-ui/react";
+import { ButtonGroup } from "@chakra-ui/react";
 import AddStudyProgramModal from "../../components/AddStudyProgramModal";
+import { useEffect, useState } from "react";
+import { genericApiGet, studyProgramsEndpoint } from "../../api/GenericApi";
 
-const module = () => {
+const Component = () => {
+  ///// Config /////
   const title = "Programe de studiu";
   const headers: IDataTableHeader[] = [
     {
       name: "Nume program de studiu",
     },
     {
-      name: "Tip învățământ",
-    },
-    {
       name: "Număr ani",
     },
   ];
+  const apiEndpoint = studyProgramsEndpoint;
 
-  const rows = [
-    ["Matematică", "Frecvență", 3],
-    ["Informatică", "Frecvență", 3],
-    ["Calculatoare și Tehnologia Informației", "Frecvență", 4],
-  ];
+  const [rows, setRows] = useState([]);
+  const [dataRows, setDataRows] = useState();
+
+  const refreshRows = () => {
+    genericApiGet(apiEndpoint).then((dataRows) => setDataRows(dataRows));
+  };
+
+  const onSave = refreshRows;
+  ///// End Config /////
+
+  useEffect(() => {
+    refreshRows();
+  }, []);
+
+  useEffect(() => {
+    if (!dataRows) return;
+    setRows(dataRows);
+  }, [dataRows]);
+
   const controls = (
     <>
       <ButtonGroup paddingLeft="3" colorScheme={"teal"} alignSelf={"start"}>
-        {/* <Button leftIcon={<AddIcon />}>Adaugă program de studiu</Button> */}
-        <AddStudyProgramModal />
+        <AddStudyProgramModal onSave={onSave} />
       </ButtonGroup>
     </>
   );
 
   return (
-    <>
-      <DataPageTemplate
-        title={title}
-        headers={headers}
-        rows={rows}
-        controls={controls}
-      />
-    </>
+    <DataPageTemplate
+      title={title}
+      headers={headers}
+      rows={rows}
+      controls={controls}
+    />
   );
 };
-export default module;
+export default Component;
