@@ -24,9 +24,9 @@ const module = () => {
   ];
 
   const rows = [
-    ["Algoritmi & Structuri de Date", "Marius Dumitran", "2022-2023"],
-    ["Tehnici Web", "Carmen Chiriță", "2022-2023"],
-    ["Analiză matematică", "Petre Iliaș", "2022-2023"],
+    [1, "Algoritmi & Structuri de Date", "Marius Dumitran", "2022-2023"],
+    [2, "Tehnici Web", "Carmen Chiriță", "2022-2023"],
+    [3, "Analiză matematică", "Petre Iliaș", "2022-2023"],
   ];
 
   const controls = (

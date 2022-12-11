@@ -1,5 +1,4 @@
 import { default as axios } from "axios";
-import { IStudentDetailsAPI } from "../components/AddStudentModal";
 import { IStudyProgramsAPI } from "../components/AddStudyProgramModal";
 import { API_URL } from "../Constants";
 
@@ -10,6 +9,20 @@ export const subjectEndpoint = "subjects"
 export const coursesEndpoint = "courses"
 export const profileEndpoint = "profile"
 export const studentsEndpoint = "students"
+
+export interface IStudentDetailsAPI {
+  firstName: string;
+  lastName: string;
+  email: string;
+  group: IGroupAPI;
+}
+
+
+export interface IGroupAPI {
+  groupCode: number;
+}
+
+
 
 export const genericApiGet = (apiEndpoint:string) => {
     return axios.get(API_URL + apiEndpoint).then((response) => {

@@ -1,6 +1,5 @@
-import { genericApiPost } from "../api/GenericApi";
+import { genericApiPost, IStudentDetailsAPI } from "../api/GenericApi";
 import { ISubjectAPI } from "../api/SubjectsApi";
-import { IStudentDetailsAPI } from "./AddStudentModal";
 import { IStudyProgramsAPI } from "./AddStudyProgramModal";
 
 export interface IModal {

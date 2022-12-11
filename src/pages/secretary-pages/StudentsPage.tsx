@@ -6,7 +6,11 @@ import { IDataTableHeader } from "../../components/DataTable";
 import { AddIcon, DownloadIcon } from "@chakra-ui/icons";
 import { Button, ButtonGroup } from "@chakra-ui/react";
 import AddStudentModal from "../../components/AddStudentModal";
-import { genericApiGet, studentsEndpoint } from "../../api/GenericApi";
+import {
+  genericApiGet,
+  IStudentDetailsAPI,
+  studentsEndpoint,
+} from "../../api/GenericApi";
 import { useEffect, useState } from "react";
 
 const title = "Studenți";
@@ -20,22 +24,17 @@ const Component = () => {
       name: "Prenume",
     },
     {
-      name: "Grupă",
+      name: "Adresa e-mail",
     },
     {
-      name: "Adresa e-mail",
+      name: "Grupă",
     },
   ];
 
-  // const rows = [
-  //   ["Ion", "Popescu", "134", "Ion.Popescu@gmail.com"],
-  //   ["Ion", "Popescu", "144", "Ion.Popescu@gmail.com"],
-  // ];
-
   const apiEndpoint = studentsEndpoint;
 
-  const [rows, setRows] = useState([]);
-  const [dataRows, setDataRows] = useState();
+  const [rows, setRows] = useState<(string | number)[][]>([]);
+  const [dataRows, setDataRows] = useState<any>([]);
 
   const refreshRows = () => {
     genericApiGet(apiEndpoint).then((dataRows) => setDataRows(dataRows));
@@ -49,7 +48,12 @@ const Component = () => {
 
   useEffect(() => {
     if (!dataRows) return;
-    setRows(dataRows);
+    const parsedRows = dataRows.map((row: any) => {
+      console.log(row);
+      //TODO: refactor
+      return [row[0], row[1], row[2], row[3], row[4].groupCode];
+    });
+    setRows(parsedRows);
   }, [dataRows]);
 
   const controls = (

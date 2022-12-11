@@ -15,19 +15,8 @@ import {
 } from "@chakra-ui/react";
 import { useFormik } from "formik";
 import { Form } from "react-router-dom";
-import { studentsEndpoint } from "../api/GenericApi";
+import { IStudentDetailsAPI, studentsEndpoint } from "../api/GenericApi";
 import { genericAddModalSave, IModal } from "./GenericModal";
-
-export interface IGroupAPI {
-  groupCode: number;
-}
-
-export interface IStudentDetailsAPI {
-  firstName: string;
-  lastName: string;
-  email: string;
-  group: IGroupAPI;
-}
 
 const Component = (props: IModal) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
