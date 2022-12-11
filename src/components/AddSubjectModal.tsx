@@ -15,8 +15,7 @@ import {
 } from "@chakra-ui/react";
 import { useFormik } from "formik";
 import { Form } from "react-router-dom";
-import { subjectEndpoint } from "../api/GenericApi";
-import { ISubjectAPI } from "../api/SubjectsApi";
+import { ISubjectAPI, subjectEndpoint } from "../api/GenericApi";
 import { genericAddModalSave, IModal } from "./GenericModal";
 
 const Component = (props: IModal) => {

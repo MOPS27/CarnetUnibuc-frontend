@@ -15,22 +15,26 @@ import {
 } from "@chakra-ui/react";
 import { useFormik } from "formik";
 import { Form } from "react-router-dom";
+import { coursesEndpoint, ICourseAPI } from "../api/GenericApi";
+import { genericAddModalSave, IModal } from "./GenericModal";
 
 export interface IAddModal {
   title: string;
 }
 
-const Component = () => {
+const Component = (props: IModal) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
+  const initialValues: ICourseAPI = {
+    professorName: "",
+    subjectId: 1,
+    calendarYearName: "",
+  };
+
   const formik = useFormik({
-    initialValues: {
-      courseName: "",
-      professor: "",
-      year: "2022-2023",
-    },
+    initialValues: initialValues,
     onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2));
+      genericAddModalSave(values, coursesEndpoint, props.onSave, onClose);
     },
   });
 
@@ -47,29 +51,29 @@ const Component = () => {
             <ModalHeader>Adaugă curs</ModalHeader>
             <ModalCloseButton />
             <ModalBody>
-              <FormLabel htmlFor="courseName">Nume curs</FormLabel>
+              <FormLabel htmlFor="subjectId">Materie</FormLabel>
 
               <Input
-                id="courseName"
-                name="courseName"
+                id="subjectId"
+                name="subjectId"
                 onChange={formik.handleChange}
-                value={formik.values.courseName}
+                value={formik.values.subjectId}
               />
 
-              <FormLabel htmlFor="professor">Nume profesor</FormLabel>
+              <FormLabel htmlFor="professorName">Nume profesor</FormLabel>
               <Input
-                id="professor"
-                name="professor"
+                id="professorName"
+                name="professorName"
                 onChange={formik.handleChange}
-                value={formik.values.professor}
+                value={formik.values.professorName}
               />
-              <FormLabel htmlFor="year">An universitar</FormLabel>
+              <FormLabel htmlFor="calendarYearName">An universitar</FormLabel>
 
               <Input
-                id="year"
-                name="year"
+                id="calendarYearName"
+                name="calendarYearName"
                 onChange={formik.handleChange}
-                value={formik.values.year}
+                value={formik.values.calendarYearName}
               />
             </ModalBody>
 

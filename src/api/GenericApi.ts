@@ -2,8 +2,6 @@ import { default as axios } from "axios";
 import { IStudyProgramsAPI } from "../components/AddStudyProgramModal";
 import { API_URL } from "../Constants";
 
-import { ISubjectAPI } from "./SubjectsApi";
-
 export const studyProgramsEndpoint = "programmes"
 export const subjectEndpoint = "subjects"
 export const coursesEndpoint = "courses"
@@ -22,6 +20,19 @@ export interface IGroupAPI {
   groupCode: number;
 }
 
+export interface ISubjectAPI {
+  name:string;
+  creditCount:number;
+}
+
+export interface ICourseAPI {
+  professorName:string;
+  subjectId:number;
+  calendarYearName:string;
+}
+export type APIObject = IStudyProgramsAPI | ISubjectAPI | IStudentDetailsAPI[] | ICourseAPI;
+
+
 
 
 export const genericApiGet = (apiEndpoint:string) => {
@@ -34,8 +45,8 @@ export const genericApiGet = (apiEndpoint:string) => {
       });
 }
 
-export const genericApiPost = (data:(IStudyProgramsAPI | ISubjectAPI | IStudentDetailsAPI[]), endpoint:string) => {
-  console.log("data", data)
+export const genericApiPost = (data:APIObject, endpoint:string) => {
+
   const json = JSON.stringify(data, null, 2);
   return axios.post(API_URL + endpoint, data).then((response) => {
       console.log(response)
