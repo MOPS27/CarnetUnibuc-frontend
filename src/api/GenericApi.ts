@@ -8,6 +8,9 @@ export const coursesEndpoint = "courses"
 export const profileEndpoint = "profile"
 export const studentsEndpoint = "students"
 
+export const studentEndpoint = "student"
+export const gradesEndpoint = "grades"
+
 export interface IStudentDetailsAPI {
   firstName: string;
   lastName: string;
@@ -25,19 +28,23 @@ export interface ISubjectAPI {
   creditCount:number;
 }
 
-export interface ICourseAPI {
+export interface ICoursePostAPI {
   professorName:string;
   subjectId:number;
   calendarYearName:string;
 }
-export type APIObject = IStudyProgramsAPI | ISubjectAPI | IStudentDetailsAPI[] | ICourseAPI;
 
-
-
-
+export interface ICourseGetAPI {
+  subject:ISubjectAPI;
+  professorName:string;
+  calendarYearName:string;
+}
+export type APIObjectGet = IStudyProgramsAPI | ISubjectAPI | IStudentDetailsAPI[] | ICourseGetAPI | null;
+export type APIObjectPost = IStudyProgramsAPI | ISubjectAPI | IStudentDetailsAPI[] | ICoursePostAPI | null;
 export const genericApiGet = (apiEndpoint:string) => {
     return axios.get(API_URL + apiEndpoint).then((response) => {
         const data = response.data;
+        console.log(data  )
         const dataRows: any = data.map((object:any) => {
           return Object.values(object);
         });
@@ -45,7 +52,7 @@ export const genericApiGet = (apiEndpoint:string) => {
       });
 }
 
-export const genericApiPost = (data:APIObject, endpoint:string) => {
+export const genericApiPost = (data:APIObjectPost, endpoint:string) => {
 
   const json = JSON.stringify(data, null, 2);
   return axios.post(API_URL + endpoint, data).then((response) => {

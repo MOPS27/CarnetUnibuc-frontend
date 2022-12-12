@@ -1,4 +1,6 @@
 import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
+import { Link as RouterLink } from "react-router-dom";
+
 import {
   IconButton,
   Table,
@@ -8,6 +10,9 @@ import {
   Th,
   Thead,
   Tr,
+  Link,
+  LinkBox,
+  LinkOverlay,
 } from "@chakra-ui/react";
 
 export interface IDataTableHeader {
@@ -22,6 +27,7 @@ export interface IDataTable {
   rows: IDataTableRow[];
   canEditRow: boolean;
   canDeleteRow: boolean;
+  rowLink?: string;
 }
 const DataTable = (props: IDataTable) => {
   const tableHeaders = props.headers.map((headerData, index) => (
@@ -31,7 +37,7 @@ const DataTable = (props: IDataTable) => {
   ));
 
   const actionTableHeader =
-    props.canEditRow || props.canDeleteRow ? <Th>Acțiuni</Th> : <></>;
+    props.canEditRow || props.canDeleteRow ? <Th>Acțiuni</Th> : null;
 
   const tableRows = props.rows.map((rowData) => {
     const rowKey = rowData[0];
@@ -41,22 +47,21 @@ const DataTable = (props: IDataTable) => {
     console.log(rowKey);
     const editRowButton = props.canEditRow ? (
       <IconButton mr="2" aria-label="edit" icon={<EditIcon />} />
-    ) : (
-      <></>
-    );
+    ) : null;
     const deleteRowButton = props.canDeleteRow ? (
       <IconButton mr="2" aria-label="delete" icon={<DeleteIcon />} />
-    ) : (
-      <></>
-    );
+    ) : null;
+
+    const rowLink = props.rowLink ? props.rowLink.replace(":id", rowKey) : "#";
     return (
-      <Tr key={rowKey}>
+      <LinkBox as={Tr}>
         {cells}
-        <td>
+        <Td hidden={!(editRowButton || deleteRowButton)}>
           {editRowButton}
           {deleteRowButton}
-        </td>
-      </Tr>
+          <LinkOverlay as={Link} href={rowLink}></LinkOverlay>
+        </Td>
+      </LinkBox>
     );
   });
 

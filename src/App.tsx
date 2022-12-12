@@ -13,6 +13,8 @@ import {
 } from "react-router-dom";
 import RootPage from "./pages/templates/RootPage";
 import CoursesPage from "./pages/secretary-pages/CoursesPage";
+import CourseStudentsPage from "./pages/secretary-pages/CourseStudentsPage";
+
 import StudyProgramsPage from "./pages/secretary-pages/StudyProgramsPage";
 import SubjectsPage from "./pages/secretary-pages/SubjectsPage";
 import StudentsPage from "./pages/secretary-pages/StudentsPage";
@@ -38,6 +40,10 @@ const router = createBrowserRouter([
       {
         path: "/courses",
         element: <CoursesPage />,
+      },
+      {
+        path: "/courses/:courseId/students",
+        element: <CourseStudentsPage />,
       },
       {
         path: "/subjects",

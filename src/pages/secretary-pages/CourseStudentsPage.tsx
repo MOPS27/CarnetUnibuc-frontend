@@ -4,40 +4,40 @@
  */
 import DataPageTemplate from "../templates/DataPageTemplate";
 import { IDataTableHeader } from "../../components/DataTable";
-import { Button, ButtonGroup } from "@chakra-ui/react";
+import { ButtonGroup } from "@chakra-ui/react";
 import AddCourseModal from "../../components/AddCourseModal";
 import { coursesEndpoint, genericApiGet } from "../../api/GenericApi";
 import { useEffect, useState } from "react";
+import AddGroupToCourseModal from "../../components/AddGroupToCourseModal";
+import { useParams } from "react-router-dom";
 
-const title = "Cursuri";
+const title = "Catalog";
 
 const Component = () => {
   const headers: IDataTableHeader[] = [
     {
-      name: "Profesor",
+      name: "Nume",
     },
     {
-      name: "Materie",
+      name: "Prenume",
     },
     {
-      name: "An universitar",
+      name: "Adresa e-mail",
+    },
+    {
+      name: "Grupă",
     },
   ];
+  let { courseId } = useParams();
 
-  const apiEndpoint = coursesEndpoint;
+  const apiEndpoint = `${coursesEndpoint}/${courseId}/students`;
 
-  const [rows, setRows] = useState([]);
+  const [rows, setRows] = useState<(string | number)[][]>([]);
   const [dataRows, setDataRows] = useState<any>([]);
 
   const refreshRows = () => {
     genericApiGet(apiEndpoint).then((dataRows) => {
-      const parsedRows = dataRows.map((row: any) => {
-        console.log("GetRow", row);
-
-        //TODO: refactor
-        return [row[0], row[1], row[2].name, row[3]];
-      });
-      setRows(parsedRows);
+      setDataRows(dataRows);
     });
   };
 
@@ -47,16 +47,20 @@ const Component = () => {
     refreshRows();
   }, []);
 
-  // const rows = [
-  //   [1, "Algoritmi & Structuri de Date", "Marius Dumitran", "2022-2023"],
-  //   [2, "Tehnici Web", "Carmen Chiriță", "2022-2023"],
-  //   [3, "Analiză matematică", "Petre Iliaș", "2022-2023"],
-  // ];
+  useEffect(() => {
+    if (!dataRows) return;
+    const parsedRows = dataRows.map((row: any) => {
+      console.log(row);
+      //TODO: refactor
+      return [row[0], row[1], row[2], row[3], row[4].groupCode];
+    });
+    setRows(parsedRows);
+  }, [dataRows]);
 
   const controls = (
     <>
       <ButtonGroup paddingLeft="3" colorScheme={"teal"} alignSelf={"start"}>
-        <AddCourseModal onSave={onSave} />
+        <AddGroupToCourseModal onSave={onSave} />
       </ButtonGroup>
     </>
   );
@@ -68,7 +72,6 @@ const Component = () => {
         headers={headers}
         rows={rows}
         controls={controls}
-        rowLink={"/courses/:id/students"}
       />
     </>
   );

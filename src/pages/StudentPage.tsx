@@ -3,13 +3,12 @@
  */
 import DataPageTemplate from "./templates/DataPageTemplate";
 import { IDataTableHeader } from "../components/DataTable";
-import { AddIcon, DownloadIcon } from "@chakra-ui/icons";
-import { Button, ButtonGroup } from "@chakra-ui/react";
-import AddStudentModal from "../components/AddStudentModal";
+import { genericApiGet, gradesEndpoint } from "../api/GenericApi";
+import { useEffect, useState } from "react";
 
-const title = "Bine ai venit, Student!";
+const title = "Bine ai venit, student!";
 
-const module = () => {
+const Component = () => {
   const headers: IDataTableHeader[] = [
     {
       name: "Materie",
@@ -17,14 +16,37 @@ const module = () => {
     {
       name: "Notă",
     },
+    {
+      name: "Număr credite",
+    },
   ];
 
-  const rows = [
-    ["Calculabilitate si Complexitate", "7"],
-    ["Algoritmi & Structuri de Date", "10"],
-  ];
+  const apiEndpoint = gradesEndpoint + "/1";
 
   const controls = <></>;
+
+  const [rows, setRows] = useState([]);
+  const [dataRows, setDataRows] = useState<any>([]);
+
+  const refreshRows = () => {
+    genericApiGet(apiEndpoint).then((dataRows) => setDataRows(dataRows));
+  };
+
+  const onSave = refreshRows;
+  ///// End Config /////
+
+  useEffect(() => {
+    refreshRows();
+  }, []);
+
+  useEffect(() => {
+    if (!dataRows) return;
+    const parsedRows = dataRows.map((row: any) => {
+      //TODO: refactor
+      return [null, row[0].name, row[1], row[0].creditCount];
+    });
+    setRows(parsedRows);
+  }, [dataRows]);
 
   return (
     <>
@@ -39,4 +61,4 @@ const module = () => {
     </>
   );
 };
-export default module;
+export default Component;

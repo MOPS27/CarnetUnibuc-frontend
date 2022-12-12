@@ -14,66 +14,52 @@ import {
   FormLabel,
 } from "@chakra-ui/react";
 import { useFormik } from "formik";
+import { useParams } from "react-router";
 import { Form } from "react-router-dom";
-import { coursesEndpoint, ICoursePostAPI } from "../api/GenericApi";
+import { coursesEndpoint } from "../api/GenericApi";
 import { genericAddModalSave, IModal } from "./GenericModal";
-
-export interface IAddModal {
-  title: string;
-}
 
 const Component = (props: IModal) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const initialValues: ICoursePostAPI = {
-    professorName: "",
-    subjectId: 1,
-    calendarYearName: "",
+  let { courseId } = useParams();
+
+  const initialValues = {
+    groupId: "",
   };
 
   const formik = useFormik({
     initialValues: initialValues,
     onSubmit: (values) => {
-      genericAddModalSave(values, coursesEndpoint, props.onSave, onClose);
+      genericAddModalSave(
+        null,
+        `${coursesEndpoint}/${courseId}/groups/${values.groupId}`,
+        props.onSave,
+        onClose
+      );
     },
   });
 
   return (
     <>
       <Button leftIcon={<AddIcon />} onClick={onOpen}>
-        Adaugă curs
+        Adaugă grupă
       </Button>
 
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <Form onSubmit={formik.handleSubmit}>
           <ModalContent>
-            <ModalHeader>Adaugă curs</ModalHeader>
+            <ModalHeader>Adaugă grupa la curs</ModalHeader>
             <ModalCloseButton />
             <ModalBody>
-              <FormLabel htmlFor="subjectId">Materie</FormLabel>
+              <FormLabel htmlFor="groupId">Grupa</FormLabel>
 
               <Input
-                id="subjectId"
-                name="subjectId"
+                id="groupId"
+                name="groupId"
                 onChange={formik.handleChange}
-                value={formik.values.subjectId}
-              />
-
-              <FormLabel htmlFor="professorName">Nume profesor</FormLabel>
-              <Input
-                id="professorName"
-                name="professorName"
-                onChange={formik.handleChange}
-                value={formik.values.professorName}
-              />
-              <FormLabel htmlFor="calendarYearName">An universitar</FormLabel>
-
-              <Input
-                id="calendarYearName"
-                name="calendarYearName"
-                onChange={formik.handleChange}
-                value={formik.values.calendarYearName}
+                value={formik.values.groupId}
               />
             </ModalBody>
 
