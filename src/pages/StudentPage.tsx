@@ -14,10 +14,10 @@ const Component = () => {
       name: "Materie",
     },
     {
-      name: "Notă",
+      name: "Număr credite",
     },
     {
-      name: "Număr credite",
+      name: "Notă",
     },
   ];
 
@@ -43,7 +43,7 @@ const Component = () => {
     if (!dataRows) return;
     const parsedRows = dataRows.map((row: any) => {
       //TODO: refactor
-      return [null, row[0].name, row[1], row[0].creditCount];
+      return [null, row[0].name, row[0].creditCount, row[1]];
     });
     setRows(parsedRows);
   }, [dataRows]);
