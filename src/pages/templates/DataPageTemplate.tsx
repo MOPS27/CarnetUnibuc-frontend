@@ -14,6 +14,7 @@ interface IDataPageTemplate {
   canDeleteRow?: boolean;
   rowLink?: string;
   editModal?: any;
+  onSave?: any;
 }
 
 const component = (props: IDataPageTemplate) => {
@@ -31,6 +32,7 @@ const component = (props: IDataPageTemplate) => {
           canDeleteRow={props.canDeleteRow ?? true}
           rowLink={props.rowLink}
           editModal={props.editModal}
+          onSave={props.onSave}
         />
       </VStack>
     </>

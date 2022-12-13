@@ -81,7 +81,7 @@ export default function WithSubnavigation() {
           >
             Sign In
           </Button> */}
-          <Button
+          {/* <Button
             display={{ base: "none", md: "inline-flex" }}
             fontSize={"sm"}
             fontWeight={600}
@@ -92,7 +92,7 @@ export default function WithSubnavigation() {
             }}
           >
             Log Out
-          </Button>
+          </Button> */}
         </Stack>
       </Flex>
 

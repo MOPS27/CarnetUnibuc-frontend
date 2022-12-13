@@ -12,10 +12,17 @@ import {
   ButtonGroup,
   Input,
   FormLabel,
+  Select,
 } from "@chakra-ui/react";
 import { useFormik } from "formik";
+import { useEffect, useState } from "react";
 import { Form } from "react-router-dom";
-import { coursesEndpoint, ICoursePostAPI } from "../api/GenericApi";
+import {
+  coursesEndpoint,
+  genericApiGet,
+  ICoursePostAPI,
+  subjectEndpoint,
+} from "../api/GenericApi";
 import { genericAddModalSave, IModal } from "./GenericModal";
 
 export interface IAddModal {
@@ -24,12 +31,28 @@ export interface IAddModal {
 
 const Component = (props: IModal) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-
+  const [subjects, setSubjects] = useState<any>();
+  const [subjectOptions, setSubjectOptions] = useState<any>();
   const initialValues: ICoursePostAPI = {
     professorName: "",
     subjectId: 1,
     calendarYearName: "",
   };
+
+  useEffect(() => {
+    if (!subjects) return;
+    const options = subjects.map((subject: any) => {
+      return <option value={subject[0]}>{subject[1]}</option>;
+    });
+    setSubjectOptions(options);
+  }, [subjects]);
+
+  useEffect(() => {
+    genericApiGet(subjectEndpoint).then((subjects) => {
+      console.log(subjects);
+      setSubjects(subjects);
+    });
+  }, []);
 
   const formik = useFormik({
     initialValues: initialValues,
@@ -37,6 +60,10 @@ const Component = (props: IModal) => {
       genericAddModalSave(values, coursesEndpoint, props.onSave, onClose);
     },
   });
+
+  if (!subjects) {
+    return <></>;
+  }
 
   return (
     <>
@@ -53,12 +80,14 @@ const Component = (props: IModal) => {
             <ModalBody>
               <FormLabel htmlFor="subjectId">Materie</FormLabel>
 
-              <Input
+              <Select
                 id="subjectId"
                 name="subjectId"
                 onChange={formik.handleChange}
                 value={formik.values.subjectId}
-              />
+              >
+                {subjectOptions}
+              </Select>
 
               <FormLabel htmlFor="professorName">Nume profesor</FormLabel>
               <Input

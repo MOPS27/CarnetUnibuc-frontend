@@ -31,6 +31,7 @@ export interface IDataTable {
   canDeleteRow: boolean;
   rowLink?: string;
   editModal?: any;
+  onSave?: any;
 }
 const DataTable = (props: IDataTable) => {
   const [selectedRow, setSelectedRow] = useState<IDataTableRow>();
@@ -41,13 +42,17 @@ const DataTable = (props: IDataTable) => {
     </Th>
   ));
 
-  const editComponent = props.editModal({
-    onSave: () => {},
-    isOpen: isOpen,
-    onOpen: onOpen,
-    onClose: onClose,
-    data: selectedRow,
-  });
+  const editComponent = props.editModal ? (
+    props.editModal({
+      onSave: props.onSave,
+      isOpen: isOpen,
+      onOpen: onOpen,
+      onClose: onClose,
+      data: selectedRow,
+    })
+  ) : (
+    <></>
+  );
 
   const actionTableHeader =
     props.canEditRow || props.canDeleteRow ? <Th>Acțiuni</Th> : null;

@@ -28,10 +28,13 @@ const Component = () => {
     {
       name: "Grupă",
     },
+    {
+      name: "Notă",
+    },
   ];
   let { courseId } = useParams();
 
-  const apiEndpoint = `${coursesEndpoint}/${courseId}/students`;
+  const apiEndpoint = `${coursesEndpoint}/${courseId}/`;
   const [rows, setRows] = useState<(string | number)[][]>([]);
   const [dataRows, setDataRows] = useState([]);
 
@@ -52,9 +55,10 @@ const Component = () => {
     const parsedRows = dataRows.map((row: any) => {
       console.log(row);
       //TODO: refactor
-      return [row[0], row[1], row[2], row[3], row[4].groupCode];
+      return [row[0], row[2], row[3], row[4], row[5], row[1]];
     });
-    setRows([[1, "a", "a", "a@a", "135"]]);
+    // setRows([[1, "a", "a", "a@a", "135"]]);
+    setRows(parsedRows);
   }, [dataRows]);
 
   const controls = (
@@ -72,6 +76,7 @@ const Component = () => {
         headers={headers}
         rows={rows}
         controls={controls}
+        onSave={onSave}
         editModal={SetGradeModal}
       />
     </>
