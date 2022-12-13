@@ -5,8 +5,9 @@ import DataPageTemplate from "./templates/DataPageTemplate";
 import { IDataTableHeader } from "../components/DataTable";
 import { genericApiGet, gradesEndpoint } from "../api/GenericApi";
 import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 
-const title = "Bine ai venit, student!";
+const title = "Catalog student";
 
 const Component = () => {
   const headers: IDataTableHeader[] = [
@@ -20,8 +21,9 @@ const Component = () => {
       name: "Notă",
     },
   ];
+  let { studentId } = useParams();
 
-  const apiEndpoint = gradesEndpoint + "/1";
+  const apiEndpoint = gradesEndpoint + "/" + (studentId ? studentId : "1");
 
   const controls = <></>;
 

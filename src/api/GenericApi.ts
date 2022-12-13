@@ -19,7 +19,6 @@ export interface IStudentDetailsAPI {
   group: IGroupAPI;
 }
 
-
 export interface IGroupAPI {
   groupCode: number;
 }
@@ -48,11 +47,11 @@ export interface IGradePostAPI {
 }
 
 export type APIObjectGet = IStudyProgramsAPI | ISubjectAPI | IStudentDetailsAPI[] | ICourseGetAPI | null;
-export type APIObjectPost = IStudyProgramsAPI | ISubjectAPI | IStudentDetailsAPI[] | ICoursePostAPI | IGradePostAPI | null;
+export type APIObjectPost = IStudyProgramsAPI | ISubjectAPI | IStudentDetailsAPI[] | ICoursePostAPI | IGradePostAPI  | null;
+
 export const genericApiGet = (apiEndpoint:string) => {
     return axios.get(API_URL + apiEndpoint).then((response) => {
         const data = response.data;
-        console.log(data  )
         const dataRows: any = data.map((object:any) => {
           return Object.values(object);
         });

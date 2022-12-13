@@ -75,21 +75,19 @@ const DataTable = (props: IDataTable) => {
       <LinkBox
         as={Tr}
         onClick={() => {
-          console.log("hi");
           setSelectedRow(rowData);
-
           onOpen();
         }}
       >
         {cells}
-        <Td hidden={!(editRowButton || deleteRowButton)}>
-          {editRowButton}
-          {deleteRowButton}
-          <LinkOverlay as={Link} href={rowLink}></LinkOverlay>
-        </Td>
+        <LinkOverlay as={Link} href={rowLink}></LinkOverlay>
       </LinkBox>
     );
   });
+
+  // hidden={!(editRowButton || deleteRowButton)}>
+  //   {editRowButton}
+  //   {deleteRowButton}
 
   return (
     <>
@@ -106,7 +104,7 @@ const DataTable = (props: IDataTable) => {
           <Thead>
             <Tr>
               {tableHeaders}
-              {actionTableHeader}
+              {/* {actionTableHeader} */}
             </Tr>
           </Thead>
           <Tbody>{tableRows}</Tbody>

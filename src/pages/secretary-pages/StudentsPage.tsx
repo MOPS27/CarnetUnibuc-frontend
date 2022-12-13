@@ -12,6 +12,7 @@ import {
   studentsEndpoint,
 } from "../../api/GenericApi";
 import { useEffect, useState } from "react";
+import AddStudentsFromJsonModal from "../../components/AddStudentsFromJsonModal";
 
 const title = "Studenți";
 
@@ -60,7 +61,7 @@ const Component = () => {
     <>
       <ButtonGroup paddingLeft="3" colorScheme={"teal"} alignSelf={"start"}>
         <AddStudentModal onSave={onSave} />
-        <Button leftIcon={<DownloadIcon />}>Importă listă studenți</Button>
+        <AddStudentsFromJsonModal onSave={onSave} />
       </ButtonGroup>
     </>
   );
