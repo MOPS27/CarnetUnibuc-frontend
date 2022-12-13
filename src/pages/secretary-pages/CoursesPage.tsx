@@ -27,7 +27,6 @@ const Component = () => {
   const apiEndpoint = coursesEndpoint;
 
   const [rows, setRows] = useState([]);
-  const [dataRows, setDataRows] = useState<any>([]);
 
   const refreshRows = () => {
     genericApiGet(apiEndpoint).then((dataRows) => {
@@ -46,12 +45,6 @@ const Component = () => {
   useEffect(() => {
     refreshRows();
   }, []);
-
-  // const rows = [
-  //   [1, "Algoritmi & Structuri de Date", "Marius Dumitran", "2022-2023"],
-  //   [2, "Tehnici Web", "Carmen Chiriță", "2022-2023"],
-  //   [3, "Analiză matematică", "Petre Iliaș", "2022-2023"],
-  // ];
 
   const controls = (
     <>

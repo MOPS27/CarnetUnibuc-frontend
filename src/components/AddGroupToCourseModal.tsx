@@ -12,17 +12,40 @@ import {
   ButtonGroup,
   Input,
   FormLabel,
+  Select,
 } from "@chakra-ui/react";
 import { useFormik } from "formik";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { Form } from "react-router-dom";
-import { coursesEndpoint } from "../api/GenericApi";
+import {
+  coursesEndpoint,
+  genericApiGet,
+  groupsEndpoint,
+} from "../api/GenericApi";
 import { genericAddModalSave, IModal } from "./GenericModal";
 
 const Component = (props: IModal) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [groups, setGroups] = useState<any>();
+  const [groupOptions, setGroupOptions] = useState<any>();
 
   let { courseId } = useParams();
+
+  useEffect(() => {
+    if (!groups) return;
+    const options = groups.map((group: any) => {
+      return <option value={group[0]}> {group[1]}</option>;
+    });
+    setGroupOptions(options);
+  }, [groups]);
+
+  useEffect(() => {
+    genericApiGet(groupsEndpoint).then((groups) => {
+      console.log(groups);
+      setGroups(groups);
+    });
+  }, []);
 
   const initialValues = {
     groupId: "",
@@ -40,6 +63,9 @@ const Component = (props: IModal) => {
     },
   });
 
+  if (!groups) {
+    return <></>;
+  }
   return (
     <>
       <Button leftIcon={<AddIcon />} onClick={onOpen}>
@@ -54,13 +80,21 @@ const Component = (props: IModal) => {
             <ModalCloseButton />
             <ModalBody>
               <FormLabel htmlFor="groupId">Grupa</FormLabel>
-
-              <Input
+              <Select
                 id="groupId"
                 name="groupId"
                 onChange={formik.handleChange}
                 value={formik.values.groupId}
-              />
+              >
+                {groupOptions}
+              </Select>
+
+              {/* <Input
+                id="groupId"
+                name="groupId"
+                onChange={formik.handleChange}
+                value={formik.values.groupId}
+              /> */}
             </ModalBody>
 
             <ModalFooter>

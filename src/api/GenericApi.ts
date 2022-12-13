@@ -8,6 +8,7 @@ export const coursesEndpoint = "courses"
 export const profileEndpoint = "profile"
 export const studentsEndpoint = "students"
 
+export const groupsEndpoint = "groups"
 export const studentEndpoint = "student"
 export const gradesEndpoint = "grades"
 
