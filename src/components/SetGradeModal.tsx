@@ -14,39 +14,36 @@ import {
   FormLabel,
   Text,
 } from "@chakra-ui/react";
-import { AnyRecord } from "dns";
 import { useFormik } from "formik";
 import { Form, useParams } from "react-router-dom";
-import {
-  gradesEndpoint,
-  IGradePostAPI,
-  studyProgramsEndpoint,
-} from "../api/GenericApi";
+import { gradesEndpoint, IGradePostAPI } from "../api/GenericApi";
 import { IDataTableRow } from "./DataTable";
 import { genericAddModalSave, IModal } from "./GenericModal";
 
 const Component = (props: {
   onSave: { (): void };
   isOpen: any;
-  onOpen: any;
   onClose: any;
-  data?: any;
+  onOpen: any;
+  data?: IDataTableRow;
 }) => {
   const initialValues = {
     name: "",
     grade: 0,
   };
+
   let { courseId } = useParams();
+  console.log("saluuuut", props);
 
   const formik = useFormik({
     initialValues: initialValues,
     onSubmit: (values) => {
       const parsedValues: IGradePostAPI = {
-        studentId: props.data[0],
+        studentId: props.data![0],
         grade: values.grade,
         courseId: parseInt(courseId!),
       };
-      console.log(parsedValues);
+      console.log("parsedValues", parsedValues);
       genericAddModalSave(
         parsedValues,
         gradesEndpoint,

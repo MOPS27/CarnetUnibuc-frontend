@@ -7,7 +7,7 @@ import { IDataTableHeader, IDataTableRow } from "../../components/DataTable";
 import { ButtonGroup, useDisclosure } from "@chakra-ui/react";
 import AddCourseModal from "../../components/AddCourseModal";
 import { coursesEndpoint, genericApiGet } from "../../api/GenericApi";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import AddGroupToCourseModal from "../../components/AddGroupToCourseModal";
 import { useParams } from "react-router-dom";
 import SetGradeModal from "../../components/SetGradeModal";
@@ -30,11 +30,10 @@ const Component = () => {
     },
   ];
   let { courseId } = useParams();
-  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const apiEndpoint = `${coursesEndpoint}/${courseId}/students`;
   const [rows, setRows] = useState<(string | number)[][]>([]);
-  const [dataRows, setDataRows] = useState<any>([]);
+  const [dataRows, setDataRows] = useState([]);
 
   const refreshRows = () => {
     genericApiGet(apiEndpoint).then((dataRows) => {

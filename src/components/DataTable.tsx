@@ -14,7 +14,7 @@ import {
   LinkOverlay,
   useDisclosure,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
 import SetGradeModal from "./SetGradeModal";
 
 export interface IDataTableHeader {
@@ -33,15 +33,21 @@ export interface IDataTable {
   editModal?: any;
 }
 const DataTable = (props: IDataTable) => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
-
   const [selectedRow, setSelectedRow] = useState<IDataTableRow>();
-
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const tableHeaders = props.headers.map((headerData, index) => (
     <Th key={headerData.name} isNumeric={headerData.isNumeric ?? false}>
       {headerData.name}
     </Th>
   ));
+
+  const editComponent = props.editModal({
+    onSave: () => {},
+    isOpen: isOpen,
+    onOpen: onOpen,
+    onClose: onClose,
+    data: selectedRow,
+  });
 
   const actionTableHeader =
     props.canEditRow || props.canDeleteRow ? <Th>Acțiuni</Th> : null;
@@ -66,6 +72,7 @@ const DataTable = (props: IDataTable) => {
         onClick={() => {
           console.log("hi");
           setSelectedRow(rowData);
+
           onOpen();
         }}
       >
@@ -81,13 +88,14 @@ const DataTable = (props: IDataTable) => {
 
   return (
     <>
-      <SetGradeModal
+      {/* <SetGradeModal
         isOpen={isOpen}
         onOpen={onOpen}
         onClose={onClose}
         data={selectedRow}
         onSave={() => {}}
-      />
+      /> */}
+      {editComponent}
       <TableContainer width="100%">
         <Table variant="simple">
           <Thead>
