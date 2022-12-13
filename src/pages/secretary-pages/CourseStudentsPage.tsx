@@ -3,13 +3,14 @@
  * la care sunt inscrisi un numar de studenti
  */
 import DataPageTemplate from "../templates/DataPageTemplate";
-import { IDataTableHeader } from "../../components/DataTable";
-import { ButtonGroup } from "@chakra-ui/react";
+import { IDataTableHeader, IDataTableRow } from "../../components/DataTable";
+import { ButtonGroup, useDisclosure } from "@chakra-ui/react";
 import AddCourseModal from "../../components/AddCourseModal";
 import { coursesEndpoint, genericApiGet } from "../../api/GenericApi";
 import { useEffect, useState } from "react";
 import AddGroupToCourseModal from "../../components/AddGroupToCourseModal";
 import { useParams } from "react-router-dom";
+import SetGradeModal from "../../components/SetGradeModal";
 
 const title = "Catalog";
 
@@ -29,9 +30,9 @@ const Component = () => {
     },
   ];
   let { courseId } = useParams();
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const apiEndpoint = `${coursesEndpoint}/${courseId}/students`;
-
   const [rows, setRows] = useState<(string | number)[][]>([]);
   const [dataRows, setDataRows] = useState<any>([]);
 
@@ -54,7 +55,7 @@ const Component = () => {
       //TODO: refactor
       return [row[0], row[1], row[2], row[3], row[4].groupCode];
     });
-    setRows(parsedRows);
+    setRows([[1, "a", "a", "a@a", "135"]]);
   }, [dataRows]);
 
   const controls = (
@@ -72,6 +73,7 @@ const Component = () => {
         headers={headers}
         rows={rows}
         controls={controls}
+        editModal={SetGradeModal}
       />
     </>
   );

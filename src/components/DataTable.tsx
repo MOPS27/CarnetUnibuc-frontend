@@ -1,5 +1,4 @@
 import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
-import { Link as RouterLink } from "react-router-dom";
 
 import {
   IconButton,
@@ -13,7 +12,10 @@ import {
   Link,
   LinkBox,
   LinkOverlay,
+  useDisclosure,
 } from "@chakra-ui/react";
+import { useState } from "react";
+import SetGradeModal from "./SetGradeModal";
 
 export interface IDataTableHeader {
   name: string;
@@ -28,8 +30,13 @@ export interface IDataTable {
   canEditRow: boolean;
   canDeleteRow: boolean;
   rowLink?: string;
+  editModal?: any;
 }
 const DataTable = (props: IDataTable) => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const [selectedRow, setSelectedRow] = useState<IDataTableRow>();
+
   const tableHeaders = props.headers.map((headerData, index) => (
     <Th key={headerData.name} isNumeric={headerData.isNumeric ?? false}>
       {headerData.name}
@@ -44,7 +51,7 @@ const DataTable = (props: IDataTable) => {
     const cells = rowData
       .slice(1)
       .map((cellValue: any) => <Td key={cellValue + rowKey}>{cellValue}</Td>);
-    console.log(rowKey);
+
     const editRowButton = props.canEditRow ? (
       <IconButton mr="2" aria-label="edit" icon={<EditIcon />} />
     ) : null;
@@ -54,7 +61,14 @@ const DataTable = (props: IDataTable) => {
 
     const rowLink = props.rowLink ? props.rowLink.replace(":id", rowKey) : "#";
     return (
-      <LinkBox as={Tr}>
+      <LinkBox
+        as={Tr}
+        onClick={() => {
+          console.log("hi");
+          setSelectedRow(rowData);
+          onOpen();
+        }}
+      >
         {cells}
         <Td hidden={!(editRowButton || deleteRowButton)}>
           {editRowButton}
@@ -67,6 +81,13 @@ const DataTable = (props: IDataTable) => {
 
   return (
     <>
+      <SetGradeModal
+        isOpen={isOpen}
+        onOpen={onOpen}
+        onClose={onClose}
+        data={selectedRow}
+        onSave={() => {}}
+      />
       <TableContainer width="100%">
         <Table variant="simple">
           <Thead>

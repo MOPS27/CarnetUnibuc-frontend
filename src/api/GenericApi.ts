@@ -39,8 +39,15 @@ export interface ICourseGetAPI {
   professorName:string;
   calendarYearName:string;
 }
+
+export interface IGradePostAPI {
+  studentId: number;
+  courseId: number;
+  grade: number;
+}
+
 export type APIObjectGet = IStudyProgramsAPI | ISubjectAPI | IStudentDetailsAPI[] | ICourseGetAPI | null;
-export type APIObjectPost = IStudyProgramsAPI | ISubjectAPI | IStudentDetailsAPI[] | ICoursePostAPI | null;
+export type APIObjectPost = IStudyProgramsAPI | ISubjectAPI | IStudentDetailsAPI[] | ICoursePostAPI | IGradePostAPI | null;
 export const genericApiGet = (apiEndpoint:string) => {
     return axios.get(API_URL + apiEndpoint).then((response) => {
         const data = response.data;

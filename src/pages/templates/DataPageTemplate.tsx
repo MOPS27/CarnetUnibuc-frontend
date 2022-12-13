@@ -1,6 +1,9 @@
 import { Heading, VStack } from "@chakra-ui/react";
 import { ReactNode } from "react";
-import DataTable, { IDataTableHeader } from "../../components/DataTable";
+import DataTable, {
+  IDataTableHeader,
+  IDataTableRow,
+} from "../../components/DataTable";
 
 interface IDataPageTemplate {
   title: string;
@@ -10,6 +13,7 @@ interface IDataPageTemplate {
   canEditRow?: boolean;
   canDeleteRow?: boolean;
   rowLink?: string;
+  editModal?: any;
 }
 
 const component = (props: IDataPageTemplate) => {
@@ -26,6 +30,7 @@ const component = (props: IDataPageTemplate) => {
           canEditRow={props.canEditRow ?? true}
           canDeleteRow={props.canDeleteRow ?? true}
           rowLink={props.rowLink}
+          editModal={props.editModal}
         />
       </VStack>
     </>
