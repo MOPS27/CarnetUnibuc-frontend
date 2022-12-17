@@ -1,5 +1,4 @@
 import { default as axios } from "axios";
-import { IStudyProgramsAPI } from "../components/AddStudyProgramModal";
 import { API_URL } from "../Constants";
 
 export const studyProgramsEndpoint = "programmes"
@@ -11,6 +10,12 @@ export const studentsEndpoint = "students"
 export const groupsEndpoint = "groups"
 export const studentEndpoint = "student"
 export const gradesEndpoint = "grades"
+
+export interface IStudyProgramsAPI {
+  id?: number;
+  name: string;
+  numberOfYears: number;
+}
 
 export interface IStudentDetailsAPI {
   firstName: string;
