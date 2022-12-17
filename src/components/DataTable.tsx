@@ -85,7 +85,9 @@ function DataTable<IDataTableRow = any[]>(props: IDataTable<IDataTableRow>) {
               .slice(1)
               .map((cellValue: any) => <Td key={cellValue + rowKey}>{cellValue}</Td>);
         
-            const rowLink = props.rowLink ? props.rowLink.replace(":id", rowKey) : "#";
+            const rowLink = props.rowLink ? generatePath(props.rowLink, {
+              id: rowKey
+            }) : '#';
             return (
               <LinkBox
                 as={Tr}
