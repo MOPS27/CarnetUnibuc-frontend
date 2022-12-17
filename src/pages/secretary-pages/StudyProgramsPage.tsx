@@ -11,7 +11,7 @@ import { genericApiGet, studyProgramsEndpoint } from "../../api/GenericApi";
 const Component = () => {
   ///// Config /////
   const title = "Programe de studiu";
-  const headers: IDataTableHeader[] = [
+  const headers = [
     {
       name: "Nume program de studiu",
     },
