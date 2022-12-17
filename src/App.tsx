@@ -3,14 +3,7 @@ import { ChakraProvider } from "@chakra-ui/react";
 
 import theme from "./theme";
 import { DashSecretary } from "./pages/DashSecretary";
-import StudyPrograms from "./pages/secretary-pages/StudyProgramsPage";
-import {
-  Routes,
-  Route,
-  BrowserRouter as Router,
-  RouterProvider,
-  createBrowserRouter,
-} from "react-router-dom";
+import {Routes, Route, BrowserRouter, Navigate} from "react-router-dom";
 import RootPage from "./pages/templates/RootPage";
 import CoursesPage from "./pages/secretary-pages/CoursesPage";
 import CourseStudentsPage from "./pages/secretary-pages/CourseStudentsPage";
@@ -20,53 +13,31 @@ import SubjectsPage from "./pages/secretary-pages/SubjectsPage";
 import StudentsPage from "./pages/secretary-pages/StudentsPage";
 import StudentPage from "./pages/StudentPage";
 
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <RootPage />,
-    children: [
-      {
-        index: true,
-        element: <DashSecretary />,
-      },
-      {
-        path: "/secretary",
-        element: <DashSecretary />,
-      },
-      {
-        path: "/study-programs",
-        element: <StudyProgramsPage />,
-      },
-      {
-        path: "/courses",
-        element: <CoursesPage />,
-      },
-      {
-        path: "/courses/:courseId/students",
-        element: <CourseStudentsPage />,
-      },
-      {
-        path: "/subjects",
-        element: <SubjectsPage />,
-      },
-      {
-        path: "/students",
-        element: <StudentsPage />,
-      },
-      {
-        path: "/student/:studentId",
-        element: <StudentPage />,
-      },
-      {
-        path: "/student",
-        element: <StudentPage />,
-      },
-    ],
-  },
-]);
-
 export const App = () => (
   <ChakraProvider theme={theme}>
-    <RouterProvider router={router} />
+    <BrowserRouter>
+    <Routes>
+      <Route element={<RootPage />}>
+        <Route index element={<DashSecretary />} />
+        <Route path="secretary" element={<DashSecretary />} />
+        <Route path="study-programs" element={<StudyProgramsPage />} />
+        <Route path="courses">
+          <Route index element={<CoursesPage />} />
+          <Route path=":courseId">
+            <Route path="students" element={<CourseStudentsPage />} />
+            <Route path="*" element={<Navigate to="../students" replace={true} />} />
+            <Route index element={<Navigate to="./students" replace={true} />} />
+          </Route>
+        </Route>
+        <Route path="subjects" element={<SubjectsPage />} />
+        <Route path="students" element={<StudentsPage />} />
+        <Route path="student">
+          <Route index element={<StudentPage />} />
+          <Route path=":studentId" element={<StudentPage />} />
+        </Route>
+        <Route path="*" element={<Navigate to="../" replace={true} />} />
+      </Route>
+    </Routes>
+    </BrowserRouter>
   </ChakraProvider>
 );

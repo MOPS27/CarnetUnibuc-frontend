@@ -22,9 +22,7 @@ export interface IDataTableHeader {
   isNumeric?: boolean;
 }
 
-export type IDataTableRow = any[];
-
-export interface IDataTable {
+export interface IDataTable<IDataTableRow = any[]> {
   headers: IDataTableHeader[];
   rows: IDataTableRow[];
   canEditRow: boolean;
@@ -33,57 +31,19 @@ export interface IDataTable {
   editModal?: any;
   onSave?: any;
 }
-const DataTable = (props: IDataTable) => {
+function DataTable<IDataTableRow = any[]>(props: IDataTable<IDataTableRow>) {
   const [selectedRow, setSelectedRow] = useState<IDataTableRow>();
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const tableHeaders = props.headers.map((headerData, index) => (
-    <Th key={headerData.name} isNumeric={headerData.isNumeric ?? false}>
-      {headerData.name}
-    </Th>
-  ));
-
-  const editComponent = props.editModal ? (
-    props.editModal({
-      onSave: props.onSave,
-      isOpen: isOpen,
-      onOpen: onOpen,
-      onClose: onClose,
-      data: selectedRow,
-    })
-  ) : (
-    <></>
-  );
 
   const actionTableHeader =
     props.canEditRow || props.canDeleteRow ? <Th>Acțiuni</Th> : null;
 
-  const tableRows = props.rows.map((rowData) => {
-    const rowKey = rowData[0];
-    const cells = rowData
-      .slice(1)
-      .map((cellValue: any) => <Td key={cellValue + rowKey}>{cellValue}</Td>);
-
-    const editRowButton = props.canEditRow ? (
-      <IconButton mr="2" aria-label="edit" icon={<EditIcon />} />
-    ) : null;
-    const deleteRowButton = props.canDeleteRow ? (
-      <IconButton mr="2" aria-label="delete" icon={<DeleteIcon />} />
-    ) : null;
-
-    const rowLink = props.rowLink ? props.rowLink.replace(":id", rowKey) : "#";
-    return (
-      <LinkBox
-        as={Tr}
-        onClick={() => {
-          setSelectedRow(rowData);
-          onOpen();
-        }}
-      >
-        {cells}
-        <LinkOverlay as={Link} href={rowLink}></LinkOverlay>
-      </LinkBox>
-    );
-  });
+  const editRowButton = props.canEditRow ? (
+    <IconButton mr="2" aria-label="edit" icon={<EditIcon />} />
+  ) : null;
+  const deleteRowButton = props.canDeleteRow ? (
+    <IconButton mr="2" aria-label="delete" icon={<DeleteIcon />} />
+  ) : null;
 
   // hidden={!(editRowButton || deleteRowButton)}>
   //   {editRowButton}
@@ -98,16 +58,49 @@ const DataTable = (props: IDataTable) => {
         data={selectedRow}
         onSave={() => {}}
       /> */}
-      {editComponent}
+      {props.editModal ? (
+        props.editModal({
+          onSave: props.onSave,
+          isOpen: isOpen,
+          onOpen: onOpen,
+          onClose: onClose,
+          data: selectedRow,
+        })
+      ) : null}
       <TableContainer width="100%">
         <Table variant="simple">
           <Thead>
             <Tr>
-              {tableHeaders}
+              {props.headers.map((headerData, index) => (
+                <Th key={headerData.name} isNumeric={headerData.isNumeric ?? false}>
+                  {headerData.name}
+                </Th>
+              ))}
               {/* {actionTableHeader} */}
             </Tr>
           </Thead>
-          <Tbody>{tableRows}</Tbody>
+          <Tbody>{props.rows.map((rowData) => {
+            const rowKey = rowData[0];
+            const cells = rowData
+              .slice(1)
+              .map((cellValue: any) => <Td key={cellValue + rowKey}>{cellValue}</Td>);
+        
+            const rowLink = props.rowLink ? generatePath(props.rowLink, {
+              id: rowKey
+            }) : '#';
+            return (
+              <LinkBox
+                as={Tr}
+                onClick={() => {
+                  setSelectedRow(rowData);
+                  onOpen();
+                }}
+              >
+                {cells}
+                <LinkOverlay as={Link} href={rowLink}></LinkOverlay>
+              </LinkBox>
+            );
+          })}</Tbody>
         </Table>
       </TableContainer>
     </>
